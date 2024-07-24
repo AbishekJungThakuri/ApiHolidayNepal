@@ -1,30 +1,42 @@
-import React from 'react'
-import './Placelayout.css'
-import { FaStar } from "react-icons/fa";
-import { IoHeartCircle } from "react-icons/io5";
+import React, { useState } from "react";
+import "./Placelayout.css";
+import { FaStar } from "react-icons/fa6";
 
+export const Placelayout = ({
+    name,
+    id,
+    rating,
+    img,
+    category,
+    onReadMore
+}) => {
+    const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
-export const Placelayout = ({name,price,rating,img,category}) => {
-  return (
-    <div className='place-layout'>
-        <div className="place-imag">
-            <img src={img} alt="" />
-        </div>
-        <div className="place-info">
-            <div className='name-heart' >
-               <h1> {name} </h1>
-               <IoHeartCircle className='heart' />
+    const handleReadMoreClick = () => {
+        setIsSidebarVisible(!isSidebarVisible);
+    };
+
+    return (
+        <div className={`place-layout ${isSidebarVisible ? "expanded" : ""}`}>
+            <div className="place-image">
+                <img src={img} alt={name + "image"} />
             </div>
-            {
-              category === 'event' ? null :
-            <p>${price} starting</p>
-            }
-            <div className="star-rating">
-            <FaStar className='star' />
-            <p>{rating}</p>
+
+            <div className="place-info">
+                <div className="top">
+                    <h1 className="name"> {name} </h1>
+                    <p>{category.split(",").join(" | ")}</p>
+                    <div className="star-rating">
+                        <FaStar className="star" />
+                        <p>{rating}</p>
+                    </div>
+                </div>
+
+                <button className="readmore" onClick={onReadMore}>
+                    {isSidebarVisible ? "Show Less" : "Read More"}
+                </button>
+
             </div>
-            <button className='readmore'>read more</button>
         </div>
-    </div>
-  )
-}
+    );
+};
